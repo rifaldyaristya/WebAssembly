@@ -1,18 +1,14 @@
-var add;
+'use strict';
 
-var importObject = { imports: { i: arg => console.log(arg) } };
+const fs = require('fs');
+const bytes = fs.readFileSync('./test.wasm');
 
+(async() => {
+  const module = await WebAssembly.compile(bytes);
+  const instance = await WebAssembly.instantiate(module);
+  let add = instance.exports._Z3addii;
+  console.log(add(8, 5));
+})();
 
-function loadWasm(filename){
-  return fetch(filename).then(response => response.arrayBuffer())
-  .then(bytes => WebAssembly.instantiate(bytes, importObject));
-};
-
-loadWasm("test.wasm")
-.then(obj => {
-  add = obj.instance.exports._Z3addii;
-  console.log(add(1,2));
-})
-console.log(add(1,2));
 
 
