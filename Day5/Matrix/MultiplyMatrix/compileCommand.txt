@@ -1,0 +1,1 @@
+emcc multiplyMatrix.c -o multiplyMatrix.js -s MODULARIZE -s EXPORTED_RUNTIME_METHODS=['ccall'] -s EXPORTED_FUNCTIONS="['_multiplyMatrix']"

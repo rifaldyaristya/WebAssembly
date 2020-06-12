@@ -5,13 +5,12 @@ const {performance} = require('perf_hooks');
 const fs = require('fs');
 const bytes = fs.readFileSync('./test.wasm');
 
-
 (async() => {
   const module = await WebAssembly.compile(bytes);
-  const instance = await WebAssembly.instantiate(module);
+  const instance = await WebAssembly.instantiate(module,{});
   let fiboWASM = instance.exports._Z9fibonaccii;
   let startTimeWASM = performance.now();
-  let result = fiboWASM(20)
+  let result = await fiboWASM(20);
   console.log(result);
   let finishTimeWASM = performance.now();
   console.log("Time taken to calculate fibonacci with function from WASM of 10 is " + (finishTimeWASM-startTimeWASM) + " miliseconds");
