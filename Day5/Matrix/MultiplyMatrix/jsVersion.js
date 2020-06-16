@@ -60,7 +60,7 @@ function setUpMatrix(file){
   
 
 
-fs.readFile('input.txt', (err, data) => { 
+fs.readFile('input/input1000x1000.txt', (err, data) => { 
   if (err) throw err; 
   let file = readFile(data);
   let matrixSetUp = setUpMatrix(file);
@@ -68,13 +68,13 @@ fs.readFile('input.txt', (err, data) => {
   multiplyMatrix(matrixSetUp.mtrx1, matrixSetUp.mtrx2, matrixSetUp.mtrxResult);
   let t1 = performance.now();
   console.log("Time taken to multiply these two matrices is " + (t1-t0) + " miliseconds");
-  for(let i=0; i<matrixSetUp.row; i++){
-    let txtRow = ""
-    for(let j=0; j<matrixSetUp.col; j++){
-      txtRow += matrixSetUp.mtrxResult[i][j] + " ";
-    }
-    console.log(txtRow);
-  }
+  // for(let i=0; i<matrixSetUp.row; i++){
+  //   let txtRow = ""
+  //   for(let j=0; j<matrixSetUp.col; j++){
+  //     txtRow += matrixSetUp.mtrxResult[i][j] + " ";
+  //   }
+  //   console.log(txtRow);
+  // }
 
 });
 

@@ -31,6 +31,8 @@ function setUpMatrix(file, instance){
   instance.HEAPU8.set(arr2, buffer2);
 
   return{
+    arr1 : arr1,
+    arr2 : arr2,
     numOfRowMatrix1 : numOfRowMatrix1,
     numOfColMatrix1 : numOfColMatrix1,
     numOfRowMatrix2 : numOfRowMatrix2,
@@ -43,23 +45,26 @@ function setUpMatrix(file, instance){
 }
 
 factory().then((instance) =>{
-  fs.readFile('input/input20x20.txt', (err, data) => { 
+  fs.readFile('input/input800x800.txt', (err, data) => { 
     if (err) throw err; 
     let file = readFile(data);
     let matrixSetUp = setUpMatrix(file, instance);
+    //console.log(matrixSetUp.arr1);
+    //console.log(matrixSetUp.arr2);
     let t0 = performance.now();
     instance.ccall('multiplyMatrix', 'number', ['number', 'number', 'number', 'number', 'number', 'number', 'number'], [matrixSetUp.buffer1, matrixSetUp.numOfRowMatrix1, matrixSetUp.numOfColMatrix1, matrixSetUp.buffer2, matrixSetUp.numOfRowMatrix2, matrixSetUp.numOfColMatrix2, matrixSetUp.bufferRes]);
     let t1 = performance.now();
     console.log("Time taken to multiply these two matrices is " + (t1-t0) + " miliseconds");
-
-    let arrRes = instance.HEAPU8.subarray(matrixSetUp.bufferRes, matrixSetUp.bufferRes+matrixSetUp.resultSize);
-    for(let i=0; i<matrixSetUp.numOfRowMatrix1; i++){
-      let txtRow = ""
-      for(let j=0; j<matrixSetUp.numOfColMatrix2; j++){
-        txtRow += arrRes[i*matrixSetUp.numOfColMatrix2+j] + " ";
-      }
-      console.log(txtRow);
-    }
+    let arrRes;
+    arrRes = instance.HEAPU8.subarray(matrixSetUp.bufferRes, matrixSetUp.bufferRes+matrixSetUp.resultSize);
+    //console.log(arrRes);
+    // for(let i=0; i<matrixSetUp.numOfRowMatrix1; i++){
+    //   let txtRow = ""
+    //   for(let j=0; j<matrixSetUp.numOfColMatrix2; j++){
+    //     txtRow += arrRes[i*matrixSetUp.numOfColMatrix2+j] + " ";
+    //   }
+    //   console.log(txtRow);
+    // }
 
     instance._free(matrixSetUp.buffer1);
     instance._free(matrixSetUp.buffer2);
